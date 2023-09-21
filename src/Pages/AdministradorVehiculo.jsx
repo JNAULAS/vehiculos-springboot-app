@@ -79,6 +79,9 @@ const AdministradorVehiculo = () => {
 
             console.log('DATOS REGISTRO VEHICULO')
             console.log(data)
+            setPlaca(data.placa)
+            setModelo(data.modelo)
+            setMarca(data.marca)
 
         } catch (error) {
             console.log(error);
