@@ -1,8 +1,18 @@
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
+
+
 import React, { useEffect, useState } from "react";
 
 const listaTipoVehiculo = [
@@ -27,6 +37,7 @@ const AdministradorVehiculo = () => {
     const [placa, setPlaca] = useState('')
     const [modelo, setModelo] = useState('')
     const [marca, setMarca] = useState('')
+    const [listVehiculosRegistrados, setListVehiculosRegistrados] = useState([])
 
     const onchangeInputs = (id, value) => {
         console.log(value)
@@ -82,6 +93,7 @@ const AdministradorVehiculo = () => {
             setPlaca(data.placa)
             setModelo(data.modelo)
             setMarca(data.marca)
+            setListVehiculosRegistrados(data)
 
         } catch (error) {
             console.log(error);
@@ -90,12 +102,11 @@ const AdministradorVehiculo = () => {
         }
     }
     useEffect(() => {
-
         //setListTipoVehiculo(listaTipoVehiculo)
     }, [])
     // return
     return (
-        <div>
+        <Card sx={{}}>
             <Container fixed>
                 <Select
                     id="listVehiculo"
@@ -104,6 +115,7 @@ const AdministradorVehiculo = () => {
                     variant="filled" color="success"
                     label="Tipo Vehiculo"
                     onChange={(event, option) => onChangeSelectField('tipoVehiculo', option)}
+                    sx={{ m: 1, width: '42ch' }}
                 >
                     <MenuItem value="">
                         <em>None</em>
@@ -119,6 +131,7 @@ const AdministradorVehiculo = () => {
                     value={placa}
                     onChange={(event) => onchangeInputs('placa', event.target.value)}
                     variant="filled" color="success"
+                    sx={{ m: 1, width: '30ch' }}
                 />
                 <br />
                 <TextField
@@ -127,6 +140,7 @@ const AdministradorVehiculo = () => {
                     value={modelo}
                     onChange={(event) => onchangeInputs('modelo', event.target.value)}
                     variant="filled" color="success"
+                    sx={{ m: 1, width: '30ch' }}
                 />
                 <br />
                 <TextField
@@ -135,14 +149,50 @@ const AdministradorVehiculo = () => {
                     value={marca}
                     onChange={(event) => onchangeInputs('marca', event.target.value)}
                     variant="filled" color="success"
+                    sx={{ m: 1, width: '30ch' }}
                 />
-                <br />
                 <div>
                     <br />
-                    <Button variant="outlined" onClick={hadleSave}>Guardar</Button>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Código</TableCell>
+                                    <TableCell align="right">Modelo</TableCell>
+                                    <TableCell align="right">Marca</TableCell>
+                                    <TableCell align="right">Año</TableCell>
+                                    <TableCell align="right">Cilindraje</TableCell>
+                                    <TableCell align="right">Valor</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {listVehiculosRegistrados.map((row) => (
+                                    <TableRow
+                                        key={row.name}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell align="right">{row.modelo}</TableCell>
+                                        <TableCell align="right">{row.marca}</TableCell>
+                                        <TableCell align="right">{row.anno}</TableCell>
+                                        <TableCell align="right">{row.cilindraje}</TableCell>
+                                        <TableCell align="right">{row.valor}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
+                <div>
+                    <br />
+                    <Button variant="contained" onClick={hadleSave}>Guardar</Button>
+                </div>
+                <br />
+                <br />
             </Container>
-        </div>
+        </Card>
     )
 }
 export default AdministradorVehiculo
