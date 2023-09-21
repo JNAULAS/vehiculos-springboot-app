@@ -61,19 +61,24 @@ const AdministradorVehiculo = () => {
         try {
             // Construye objeto
             const param = {
-                placa:placa,
+                placa: placa,
                 modelo: modelo,
-                marca:marca
+                marca: marca
             }
 
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: param
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(param)
             };
-            const response = await fetch('https://reqres.in/api/posts', requestOptions);
+            const response = await fetch('http://localhost:3006/api/addVehiculos', requestOptions);
             const data = await response.json();
-            this.setState({ postId: data.id });
+
+            console.log('DATOS REGISTRO VEHICULO')
+            console.log(data)
 
         } catch (error) {
             console.log(error);
